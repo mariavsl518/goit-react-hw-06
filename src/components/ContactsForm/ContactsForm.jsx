@@ -1,20 +1,50 @@
+import React from 'react'
 import { useSelector, useDispatch } from "react-redux";
+import { add } from '../../redux/contactsSlice';
+import css from './ContactsForm.module.css'
 
-export default function Balance() {
+export const ContactsForm = () => {
+
     const dispatch = useDispatch();
-    const balance = useSelector((state) => state.balance.value);
-    const [value, setValue] = useState(0);
-  
-    return (
-      <div>
-        <p>Balance: {balance}</p>
-        <input
-          type="number"
-          value={value}
-          onChange={(e) => setValue(Number(e.target.value))}
-        />
-        <button onClick={() => dispatch(deposit(value))}>Deposit</button>
-        <button onClick={() => dispatch(withdraw(value))}>Withdraw</button>
-      </div>
-    );
-  }
+
+    const handleSubmit = (evt) =>{
+        evt.preventDefault();
+
+        const name = evt.target.name.value;
+        const number = evt.target.phone.value;
+
+        if (name===''||number===''){
+            alert('You need to fill each field')
+            return
+        }
+
+        const newContact = {
+            name,
+            number,
+        }
+
+        dispatch(add(newContact))
+
+        evt.currentTarget.reset();
+    }
+
+  return (
+
+    <form onSubmit={handleSubmit} className={css.contactForm}>
+        <label htmlFor="name">
+            Name
+        </label>
+        <input type="text" id="name" className={css.contactInput}/>
+
+        <label htmlFor="phone">
+            Phone number
+        </label>
+        <input type="tel" id="phone"className={css.contactInput}/>
+
+        <button type="submit" className={css.contactBtn}>
+            Add contact
+        </button>
+    </form>
+
+  )
+}
