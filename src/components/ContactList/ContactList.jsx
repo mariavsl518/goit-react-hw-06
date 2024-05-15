@@ -9,8 +9,6 @@ export const ContactList = () => {
   const contacts = useSelector((store)=> store.contacts.items)
   const filter = useSelector((store)=> store.filter.name)
 
-  console.log(filter);
-
   const filteredItems = contacts.filter(contact => 
     contact.name.toLowerCase().includes(filter.toLowerCase()))
 
